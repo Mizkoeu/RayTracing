@@ -1,52 +1,56 @@
 # 3D_Game_Graphics
-3D Graphics Homework for CG Course
+Quadrics RayTracing Homework for CG Course
 
 Introduction:
 
- We use WebGL for shading the objects (vertext and fragment shader). The 3D model json files are provided by AIT-Budapest website.
- This is an exercise for directional, point lighting, Lambertian and Phong-Blinn shading, and shadow mappings, where the gameplay and animations are secondary to the assignment (although still rather fun to play with).
+ This is an exercise for quadrics geometry, procedural texture mapping, ray casting, ray tracing and experimenting with various materials such as plastic (phuong-blinn), metal (reflection + fresnel effect), glass (refraction). The gameplay and animations are secondary to the assignment (although still rather fun to play with).
 
 List of Features Completed:
-1. Avatar: 
-   The flying car is the avatar of our game. You might not be able to see it initially because the trees in the scene are randomly generated, which  means the car may be blocked. 
-   Controls: The UP, DOWN, LEFT, RIGHT keys are used to drive the car around and change its head direction. F key should be pressed if you would like to follow the car at a constant camera angle and position. SPACE key is for flying the car at any moment. When SPACE is pressed, the car moves upward/skyward, and when it's release, the car falls down at a given acceleration.
+1. Chessboard:
+  Completed, with multiple clippers (three infinite slabs) intersecting each other to make a box. The outer texture is rendered wooden with procedural noise function. The main board has checkered patterns, with diffuse shading and 20% reflection to give off the glass material feel.  
 
-2. Sunshine: 
-   A single directional light source from the direction (1, 1, 1) is used to light up the entire game world, as seen.
+2. Pawns: Completed with cone and sphere.
+    Note: Actual number of pawns are reduced to 4 so as to improve graphics performance.
 
-3. Highlander: 
-   The Slowpokes randomly spawned are with Lambertian shading, with different textures/materials such as "normal" and "wooden".
+3. Bishops: Completed with a see-through hole in them, with the hole's inner wall also modeled and visible.
 
-4. Shining:
-   The hot air balloons and the car avatar and all the trees in the world are with specular shading. This can be verified by moving the camera around and see that the reflections change accordingly. Camera movements can be achieved by the standard W, A, S, D keys, while Q, E keys are for moving the camera up and down respectively.
+4. Kings:
+  Built from clipped quadrics, including a paraboloid for the crown. Material for the king is gold with fresnel effect implemented.
 
-5. Spotlight:
-   The avatar flying car is equipped with a spotlight always facing the direction that the car itself is facing. The spotlight is located slightly above the car though, since I would like it to illuminate the car front deck a little as well for artistic purpose. The correctness of this feature can be verified by observing the light projected onto the ground. It's pointing directly forward with dimmer and dimmer light as you look away from the main direction. This means the  light is not isotropic. 
+5. Queens:
+  Built from clipped quadrics, including a hyperboloid for the gown. Lace-like pattern is computed in shader to discard ray hits. The body of the Queen piece thus can be seen through with a helix shaped cut.
 
-6. The Matrix Revolution:
-   The avatar has two matric revolutions: its rotor is constantly spinning (it accelerates when the car is flying upward) and its four wheels also rotate while driving. 
+6. Rooks:
+  Built using quadrics clipped by multiple (two per quadric) clippers.
 
-7. Ground Zero:
-   Ground is implemented with ideal points spanning 4 triangles. However, in this final version, I decided to have only a LARGE ground plane instead of infinite, because the shading gets wacky without writing a whole new shader for the texture mapping of ideal points to finite texture image.
+7. Sun:
+  Implemented a directional light source that contributes to the illumination of all objects with non-ideal BRDFs. Objects do cast shadows on one another.
 
-8. Pitch Black:
-   Shadows are implementd such that the higher the object is from the ground, the dimmer/more transparent its shadow is. The shadow also moves in the light's projected direction a little as the object gets higher in altitude, although not by a lot.
+8. Gloria:
+  The King pieces do have (omnidirectional, isotropic) point lights over them. It's a little obscure at first, but you can move the piece using UP,DOWN,LEFT,RIGHT arrow keys to see the point light better. Appropriate shadows are cast.
 
-9. Keep Watching: (PRESS F Key to focus your camera at the avatar constantly)
-   As the car is driven around, the camera is automatically looking at the car with reasonable distance, unless the user used W, A, S, D keys to move the camera away from the car. In this case, simply use F key to refocus. The camera will look directly at the car and into the direction of the carfront when F is hit.
+9. Silver:
+  The top/crown part of the Queen pieces are rendered as silver, with pure 100% reflection on all wavelengths.
 
-10. Who Framed Roger Rabbit:
-    The flying car tilts left or right when it turns, both during driving and flying mode. It also tilts upward (pitch up) when it flies up.
+10. Gold:
+  The entire King pieces are rendered as gold, with proper fresnel effect implemented.
 
-11. Planes on a Snake:
-    the Slowpokes spawned at random positions in the world are moving around with a parametric equation that describe a circle. However, I did not have enough time to make the objects move in a circle in the yz plane yet.
+11. Ebony and Ivory (requires Sun or Gloria):
+  The pawns and rooks are all made of plastic, with diffuse + Phuong Blinn shading (different exponents).
 
-12. Tracking:
+12. Wood (requires Chessboard):
+  The outer part of the chessboard is made of wood, with procedural texture mapping and proper diffuse shading.
 
-    When T key is pressed, camera moves along a snake path. The camera starts going in a semicircle counterclockwise, before turning around and start moving clockwise in a semicircle. The process repeats itself until T keys is release.  
+13. Normal mapping (requires 'Ebony and Ivory' or 'Silver' or 'Gold'):
+  All the pawns have Normal Mapping with the provided noise function. They all have wavy/bumpy surfaces due to the procedural noise function that disturbs the normals.
 
-13. Deaed Solid Perfect:
-    Some slowpokes are randomly selected to be given WOOD texture. Sorry for the inconvenience, but you need to find it by driving the car around or fly up for better surveillance. You should be able to easily spot 50% of the slowpokes are WOODEN.
+14. Environment: Completed.
+  Rays that do not hit any object take their radiance from an environment map texture. A semi-spherical sky mapping is implemented (singularity can be seen from the backward direction).
 
-14 & 15. Not implemented yet.
+15. Animations:
+  #1. The King piece from the Blue team can be moved around on the chessboard with UP,DOWN,LEFT,RIGHT arrow keys; With SPACE key, the King piece flies up in the sky.
+  #2. The Bishops are animated too, with F going left-forward; G going right-forward; C going left-backward; B going right-backward.
 
+16. Stretch Goals:
+  #1. Glass refraction texture is also implemented. Please see the body of the Bishops as a reference.
+  #2. The Glass parts of the Bishops DO NOT cast any shadow (non-shadow caster).
