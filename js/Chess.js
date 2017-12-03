@@ -131,33 +131,20 @@ Chess.prototype.makeBishop = function(side) {
   main.setHyperboloid();
   main.transformClipping((new Mat4()).scale(1, .1, 1).translate(0, -1, 0));
   main.transform((new Mat4()).scale(.15, .3, .15).translate(0, -1.7, 0));
-  // stick.setHyperboloid();
-  // stick.transformClipping((new Mat4()).scale(1, .15, 1).translate(0, -1.5, 0));
-  // stick.transform((new Mat4()).scale(.07, .06, .07).translate(0, -1.35, 0));
-  // bulge.setBulge();
-  // bulge.transform((new Mat4()).scale(.2, .2, .2).translate(0, -1.58, 0));
   head.setBishopSphere();
   head.transformClipping((new Mat4()).scale(.12, .75, .15).rotate(.45, 0, 0).translate(-.28, .65, 0));
   head.transform((new Mat4()).scale(.26, .35, .26).translate(0, -1.35, 0));
-
   dot.setUnitSphere();
   dot.transform((new Mat4()).scale(.08, .08, .08).translate(0, -.95, 0));
   this.quadrics.push(main);
-  // this.quadrics.push(stick);
-  // this.quadrics.push(bulge);
   this.quadrics.push(head);
   this.quadrics.push(dot);
   if (this.side === 1) {
     this.materials.push(new Vec4(.7, .2, .15, 140));
     this.materials.push(new Vec4(.6, .2, .1, 180));
     this.materials.push(new Vec4(.7, .2, .1, 180));
-    // this.materials.push(new Vec4(1, 1, 1, 210));
-    // this.materials.push(new Vec4(1, 1, 1, 210));
-    // this.materials.push(new Vec4(1, 1, 1, 210));
   } else {
-    this.materials.push(new Vec4(.6, .6, 1, 340));
-    // this.materials.push(new Vec4(.25, .3, .8, 140));
-    // this.materials.push(new Vec4(.1, .2, .5, 180));
+    this.materials.push(new Vec4(.8, .8, 1, 340));
     this.materials.push(new Vec4(.3, .15, .8, 160));
     this.materials.push(new Vec4(.3, .15, .78, 160));
   }
@@ -195,20 +182,20 @@ Chess.prototype.makePawn = function(side) {
   king.setHyperboloid();
   king.transformClipping((new Mat4()).scale(1, .15, 1).translate(0, -1, 0));
   king.transform((new Mat4()).scale(.13, .22, .13).translate(0, -1.8, 0));
-  top.setParaboloid();
-  top.transform((new Mat4()).scale(.075, .015, .075).rotate(Math.PI, 0, 0).translate(0, -1.55, 0));
+  // top.setParaboloid();
+  // top.transform((new Mat4()).scale(.075, .015, .075).rotate(Math.PI, 0, 0).translate(0, -1.55, 0));
   side.setUnitSphere();
-  side.transform((new Mat4()).scale(.25, .25, .25).translate(0, -1.5, 0));
+  side.transform((new Mat4()).scale(.25, .25, .25).translate(0, -1.65, 0));
   this.quadrics.push(king);
-  this.quadrics.push(top);
+  // this.quadrics.push(top);
   this.quadrics.push(side);
   if (this.side === 1) {
-    this.materials.push(new Vec4(.7, .2, .15, 140));
-    this.materials.push(new Vec4(.5, .2, .1, 180));
-    this.materials.push(new Vec4(.6, .15, .18, 160));
+    this.materials.push(new Vec4(.7, .2, .15, 100));
+    // this.materials.push(new Vec4(.5, .2, .1, 100));
+    this.materials.push(new Vec4(.6, .15, .18, 100));
   } else {
-    this.materials.push(new Vec4(.25, .3, .8, 140));
-    this.materials.push(new Vec4(.1, .2, .5, 180));
-    this.materials.push(new Vec4(.3, .15, .75, 160));
+    this.materials.push(new Vec4(.25, .3, .8, 100));
+    // this.materials.push(new Vec4(.1, .2, .5, 100));
+    this.materials.push(new Vec4(.3, .15, .75, 100));
   }
 };

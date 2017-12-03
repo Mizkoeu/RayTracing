@@ -62,8 +62,8 @@ let Scene = function(gl) {
   this.lightSource.mainDir = new Vec4Array(3);
   this.lightSource.lightPos.at(0).set(-1, 1, -1, 0);
   this.lightSource.lightPowerDensity.at(0).set(4, 4, 4, 0);
-  this.lightSource.lightPowerDensity.at(1).set(2, 2, 15, 0);
-  this.lightSource.lightPowerDensity.at(2).set(3, 6, 13, 0);
+  this.lightSource.lightPowerDensity.at(1).set(28, 8, 10, 0);
+  this.lightSource.lightPowerDensity.at(2).set(10, 8, 28, 0);
   //this.lightSource.mainDir.at(0).set(-1, -1, -1, 0);
   this.lightSource.mainDir.at(1).set(0, -1, 0, 1);
   this.lightSource.mainDir.at(2).set(0, -1, 0, 1);
@@ -101,13 +101,17 @@ let Scene = function(gl) {
   this.sky.materialSet.push(new Vec4(.3, .3, .3, 200));
 
   //initialize light positions
-  this.lightSource.lightPos.at(2).set((4.5-queenPiece1.col)*Chess.cellWidth, 1.2, (4.5-queenPiece1.row)*Chess.cellWidth, 1);
-  this.lightSource.lightPos.at(1).set((4.5-queenPiece2.col)*Chess.cellWidth, 1.2, (4.5-queenPiece2.row)*Chess.cellWidth, 1);
+  this.lightSource.lightPos.at(1).set((4.5-queenPiece1.col)*Chess.cellWidth, 1.2, (4.5-queenPiece1.row)*Chess.cellWidth, 1);
+  this.lightSource.lightPos.at(2).set((4.5-kingPiece2.col)*Chess.cellWidth, 1.2, (4.5-kingPiece2.row)*Chess.cellWidth, 1);
 
-  for (var i=1;i<=8;i++) {
-    this.chessPieces.push(new Chess(Chess.types.PAWN, 1, 2, i));
-    this.chessPieces.push(new Chess(Chess.types.PAWN, 2, 7, i));
-  }
+  this.chessPieces.push(new Chess(Chess.types.PAWN, 1, 2, 1));
+  this.chessPieces.push(new Chess(Chess.types.PAWN, 1, 2, 2));
+  this.chessPieces.push(new Chess(Chess.types.PAWN, 1, 2, 7));
+  this.chessPieces.push(new Chess(Chess.types.PAWN, 1, 2, 8));
+  this.chessPieces.push(new Chess(Chess.types.PAWN, 2, 7, 1));
+  this.chessPieces.push(new Chess(Chess.types.PAWN, 2, 7, 2));
+  this.chessPieces.push(new Chess(Chess.types.PAWN, 2, 7, 7));
+  this.chessPieces.push(new Chess(Chess.types.PAWN, 2, 7, 8));
 
   for (var i=0;i<this.chessPieces.length;i++) {
     let piece = this.chessPieces[i];
@@ -150,39 +154,37 @@ Scene.prototype.update = function(gl, keysPressed) {
 
   if (keysPressed.UP === true) {
     this.chessPieces[0].transform((new Mat4()).translate(0, 0, dt));
-    this.lightSource.lightPos.at(1).add(0, 0, dt, 0);
+    this.lightSource.lightPos.at(2).add(0, 0, dt, 0);
   }
   if (keysPressed.DOWN === true) {
     this.chessPieces[0].transform((new Mat4()).translate(0, 0, -dt));
-    this.lightSource.lightPos.at(1).add(0, 0, -dt, 0);
+    this.lightSource.lightPos.at(2).add(0, 0, -dt, 0);
   }
   if (keysPressed.LEFT === true) {
     this.chessPieces[0].transform((new Mat4()).translate(dt, 0, 0));
-    this.lightSource.lightPos.at(1).add(dt, 0, 0, 0);
+    this.lightSource.lightPos.at(2).add(dt, 0, 0, 0);
   }
   if (keysPressed.RIGHT === true) {
     this.chessPieces[0].transform((new Mat4()).translate(-dt, 0, 0));
-    this.lightSource.lightPos.at(1).add(-dt, 0, 0, 0);
+    this.lightSource.lightPos.at(2).add(-dt, 0, 0, 0);
   }
-  if (keysPressed.Z === true) {
-    this.chessPieces[0].transform((new Mat4()).translate(0, dt, 0));
-    this.lightSource.lightPos.at(1).add(0, dt, 0, 0);
+  if (keysPressed.G === true) {
+    this.chessPieces[10].transform((new Mat4()).translate(-dt, 0, dt));
   }
-  if (keysPressed.X === true) {
-    this.chessPieces[0].transform((new Mat4()).translate(0, -dt, 0));
-    this.lightSource.lightPos.at(1).add(0, -dt, 0, 0);
+  if (keysPressed.F === true) {
+    this.chessPieces[10].transform((new Mat4()).translate(dt, 0, dt));
+  }
+  if (keysPressed.C === true) {
+    this.chessPieces[10].transform((new Mat4()).translate(dt, 0, -dt));
+  }
+  if (keysPressed.B === true) {
+    this.chessPieces[10].transform((new Mat4()).translate(-dt, 0, -dt));
   }
 
   //Focus shot
-  if (keysPressed.F === true) {
+  if (keysPressed.SPACE === true) {
     this.chessPieces[0].transform((new Mat4()).translate(0, dt, 0));
-    this.lightSource.lightPos.at(1).add(0, dt, 0, 0);
-  }
-
-  //Tracking shot
-  if (keysPressed.G === true) {
-    this.chessPieces[0].transform((new Mat4()).translate(0, -dt, 0));
-    this.lightSource.lightPos.at(1).add(0, -dt, 0, 0);
+    this.lightSource.lightPos.at(2).add(0, dt, 0, 0);
   }
 
   this.sky.draw(this.camera, this.lightSource);

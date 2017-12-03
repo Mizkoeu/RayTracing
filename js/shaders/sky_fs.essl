@@ -9,10 +9,10 @@ Shader.source[document.currentScript.src.split('js/shaders/')[1]] = `
 	uniform vec4 mainDir[3];
 	uniform vec4 lightPowerDensity[3]; // w ignored
 	uniform vec3 cameraPos;
-	uniform mat4 quadrics[200];
-	uniform vec4 brdfs[100];
-	const int numShapes = 90;
-	const int numLights = 1;
+	uniform mat4 quadrics[150];
+	uniform vec4 brdfs[75];
+	const int numShapes = 53;
+	const int numLights = 3;
 	const bool shadow = true;
 
 	mat4 cut = mat4(0, 0, 0, 0,
@@ -204,6 +204,7 @@ Shader.source[document.currentScript.src.split('js/shaders/')[1]] = `
 		return bestT >= 0.0;
 	}
 
+	//for casting shadows. Easier computation.
 	bool getBestHit(vec4 e, vec4 d) {
 		float t1, t2, t3, t4;
 		for(int i=0;i<numShapes;i++) {
@@ -226,6 +227,9 @@ Shader.source[document.currentScript.src.split('js/shaders/')[1]] = `
 				t1 = intersectLacedQuadric(A, B, e, d);
 				t2 = intersectClippedQuadric(B, A, e, d);
 				if (t1 > 0.0 || t2 > 0.0) { return true;}
+			}
+			else if (brdfs[i].w > 300.0) {
+				continue;
 			}
 			else {
 			//for normal single clipper Quadrics!
@@ -260,7 +264,7 @@ Shader.source[document.currentScript.src.split('js/shaders/')[1]] = `
 
 				vec4 powerDensity;
 				if (mainDir[i].w == 1.0) {
-					powerDensity = lightPowerDensity[i] * pow(max(dot(normalize(mainDir[i].xyz), normalize((-1.0) * lightDir)), 0.0), 25.0);
+					powerDensity = lightPowerDensity[i] * pow(max(dot(normalize(mainDir[i].xyz), normalize((-1.0) * lightDir)), 0.0), 35.0);
 				} else {
 					powerDensity = lightPowerDensity[i];
 				}
@@ -377,7 +381,7 @@ Shader.source[document.currentScript.src.split('js/shaders/')[1]] = `
 					vec3 normal = normalize(quadricGrad);
 					//Rough materials
 					if (brdf.w < 200.0) {
-						// normal = normalize(quadricGrad + noiseGrad(r.xyz));
+						if (brdf.w == 100.0) {normal = normalize(quadricGrad + noiseGrad(r.xyz));}
 						gl_FragColor += shading(d, r, normal, brdf) * vec4(contrib, 1);
 						return;
 					} else if (brdf.w == 200.0) {
