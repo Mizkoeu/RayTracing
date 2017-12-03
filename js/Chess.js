@@ -167,10 +167,10 @@ Chess.prototype.makeRook = function(side) {
   this.quadrics.push(main);
   this.quadrics.push(head);
   if (this.side === 1) {
-    this.materials.push(new Vec4(.7, .2, .15, 110));
+    this.materials.push(new Vec4(.7, .2, .15, 190));
     this.materials.push(new Vec4(.8, .15, .18, 10));
   } else {
-    this.materials.push(new Vec4(.25, .3, .8, 110));
+    this.materials.push(new Vec4(.25, .3, .8, 190));
     this.materials.push(new Vec4(.3, .15, .75, 10));
   }
 };
